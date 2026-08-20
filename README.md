@@ -1,32 +1,51 @@
-1. Create & `cd` to a directory for your repo and its worktrees
+Create & `cd` to a directory for your repo's worktrees
 ```bash
 mkdir worktrees-fun && cd worktrees-fun
 ```
 
-Clone this repo into a hidden .bare folder
+Clone _just_ the repo history to a `.bare` folder
 ```bash
 git clone --bare git@github.com:jonathan-harford-atg/worktrees-fun.git .bare
 ```
 
-Tell the root folder where the Git history is hidden
+Declare where the Git history is (so you can run git commands from here)
 ```bash
 echo "gitdir: ./.bare" > .git
 ```
 
-3. Fix the fetch configuration to see all remote branches
+Fix the fetch configuration to see all remote branches, since bare clones don't automatically track remotes.
 ```bash
 git config remote.origin.fetch "+refs/heads/*:refs/remotes/origin/*"
 ```
 
-4. Add a worktree (the main branch)
+Now that you're tracking, fetch
+```bash
+git fetch --all
+```
+
+Create a worktree off an existing branch
 ```bash
 git worktree add main 
 ```
 
-5. Add a worktree (creates branch if it doesn't already exist)
+Create a worktree and a corresponding branch (note it's the same command)
 ```bash
-git worktree add my-worktree-branch
+git worktree add my-wtree-branch
 ```
 
-# Each folder correspond to a branch, everything is centralized
-# Read the doc... or follow the article
+## End result:
+
+```
+worktrees-fun/
+├── .bare/           # Git history
+├── main             # Worktree 1
+└── my-wtree-branch  # Worktree 2
+```
+
+## Friction
+
+- VSCode can't be made to show repo name in title ([#251596](https://github.com/microsoft/vscode/issues/251596))
+
+## References
+
+- [Git worktree like a boss](https://dev.to/metal3d/git-worktree-like-a-boss-2j1b)
